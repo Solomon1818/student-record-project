@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+import os
+from flask import Flask, request, jsonify,  render_template
 from flask_cors import CORS
 from pymongo import MongoClient
 
@@ -14,9 +15,9 @@ db = client["StudentDb"]
 #Collection name (from Compass)
 students = db["ThirdYear"]
 
-@app.route("/")
+@app.route('/')
 def home():
-    return "Flask server connected to MongoDB"
+    return render_template('login.html')
 
 @app.route("/search", methods=["GET"])
 def search_student():
@@ -66,5 +67,5 @@ def get_marks():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
 
