@@ -51,3 +51,69 @@
       margin-top: 10px;
       display: none;
     }
+    /* Mobile devices */
+@media (max-width: 600px) {
+
+  body {
+    padding: 10px;
+  }
+
+  .login-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .dashboard {
+    padding: 15px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .search-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+/* Tablet devices */
+@media (min-width: 601px) and (max-width: 1024px) {
+
+  .login-box {
+    width: 60%;
+  }
+
+  .dashboard {
+    padding: 20px;
+  }
+
+  .profile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-box input {
+    width: 70%;
+  }
+
+}
