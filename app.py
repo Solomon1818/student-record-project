@@ -1,0 +1,70 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from pymongo import MongoClient
+
+app = Flask(__name__)
+CORS(app)
+
+#MongoDB connection (client)
+client = MongoClient("mongodb+srv://solomonking:Solomon%4018@cluster0.kxn98mx.mongodb.net/?appName=Cluster0")
+
+#Database name (from Compass)
+db = client["StudentDb"]
+
+#Collection name (from Compass)
+students = db["ThirdYear"]
+
+@app.route("/")
+def home():
+    return "Flask server connected to MongoDB"
+
+@app.route("/search", methods=["GET"])
+def search_student():
+    query = request.args.get("q")
+
+    if not query:
+        return jsonify({"error": "No search value provided"})
+
+    student = students.find_one(
+        {
+            "$or": [
+                {"name": {"$regex": query, "$options": "i"}},
+                {"rollno": {"$regex": query, "$options": "i"}}
+            ]
+        },
+        {"_id": 0}
+    )
+
+    if student:
+        return jsonify(student)
+    else:
+        return jsonify({"error": "Student not found"})
+
+@app.route("/marks", methods=["GET"])
+def get_marks():
+    rollno = request.args.get("rollno")
+    sem = request.args.get("sem")
+
+    print("DEBUG rollno:", rollno)
+    print("DEBUG sem:", sem)
+
+    student = students.find_one({
+        "rollno": {"$regex": f"^{rollno}$", "$options": "i"}
+    })
+
+    if not student:
+        return jsonify({"error": "Student not found"})
+
+    semesters = student.get("semesters", {})
+    sem_key = f"sem{sem}"
+
+    if sem_key not in semesters:
+        return jsonify({"error": "Semester data not available"})
+
+    return jsonify(semesters[sem_key])
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+

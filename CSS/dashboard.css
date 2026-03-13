@@ -1,0 +1,199 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f3f4f6; /* professional neutral */
+}
+
+/* FULL PAGE DASHBOARD */
+.full-dashboard {
+  width: 100%;
+  min-height: 100vh;
+  padding: 25px 40px;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e5e7eb;
+  margin-bottom: 25px;
+}
+
+.header h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 24px;
+}
+
+.logout-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #b91c1c;
+}
+
+/* SEARCH */
+.search-box {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+}
+
+.search-box button {
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.search-box button:hover {
+  background: #1e40af;
+}
+
+/* RESULT AREA */
+.result {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  display: none;
+}
+
+/* PROFILE CARD */
+.profile-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 25px 30px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* STUDENT HEADER */
+.student-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.student-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #111827;
+}
+
+.roll-badge {
+  background: #5ae6ff;
+  color: #1a1c1d;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* GRID */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* FULL PAGE LOOK */
+  gap: 18px 40px;
+}
+
+.profile-grid div {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-grid .full {
+  grid-column: span 3;
+}
+
+.profile-grid span {
+  font-size: 13px;
+  font-weight: 700;        
+  color: #1f2937;         
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.profile-grid p {
+  font-size: 15px;
+  color: #111827;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e5e7eb;
+  margin: 0;
+}
+
+/* SEMESTER */
+label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+#semesterSelect {
+  margin-top: 8px;
+  width: 240px;
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #c7d2fe;
+  outline: none;
+}
+
+/* BUTTON */
+.primary-btn {
+  margin-top: 14px;
+  padding: 10px 22px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background: #1e40af;
+}
+
+/* MARKS TABLE */
+table {
+  margin-top: 15px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #f3f4f6;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+}

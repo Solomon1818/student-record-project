@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="\CSS\dashboard.css">
+</head>
+
+<body>
+<div class="dashboard full-dashboard">
+    <div class="header">
+      <h2>Admin Dashboard</h2>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search student by name / roll no" />
+      <button onclick="searchStudent()">Search</button>
+    </div>
+
+    <div class="result" id="resultBox">
+      <div class="profile-card" id="profileCard"></div>
+    </div>
+
+
+  </div>
+
+  <script>
+
+    let currentStudent = null;
+
+    function logout() {
+      window.location.href = "login.html";
+    }
+
+    function searchStudent() {
+      const value = document.getElementById("searchInput").value.trim();
+
+      if (!value) {
+        alert("Please enter name or roll number");
+        return;
+      }
+
+      fetch(`http://127.0.0.1:5000/search?q=${value}`)
+        .then(res => res.json())
+        .then(data => {
+          const box = document.getElementById("resultBox");
+          const card = document.getElementById("profileCard");
+
+          box.style.display = "block";
+
+          if (data.error) {
+            card.innerHTML = `<p style="color:red">${data.error}</p>`;
+            return;
+          }
+
+          currentStudent = data;
+
+          card.innerHTML = `
+  <div class="student-header">
+    <h3 style="text-transform: uppercase;">${data.name}</h3>
+    <span class="roll-badge" style="text-transform: uppercase;">Roll No: ${data.rollno}</span>
+  </div>
+
+  <div class="profile-grid">
+
+    <div><span>Student Name</span><p>${data.name}</p></div>
+    <div><span>Roll No</span><p>${data.rollno}</p></div>
+
+    <div><span>Date of Birth</span><p>${data.dateOfBirth}</p></div>
+    <div><span>Course</span><p>${data.course}</p></div>
+
+    <div><span>Major</span><p>${data.major}</p></div>
+    <div><span>Medium & Shift</span><p>${data.mediumAndShift}</p></div>
+
+    <div><span>Parent / Guardian</span><p>${data.parentGuardianName}</p></div>
+    <div><span>Occupation / Annual Income</span><p>${data.occupationAndAnnualIncome}</p></div>
+
+    <div><span>Community Certificate No</span><p>${data.onlineCommunityCertificateNo}</p></div>
+    <div><span>Religion</span><p>${data.religion}</p></div>
+
+    <div><span>Community</span><p>${data.community}</p></div>
+    <div><span>Sub Caste</span><p>${data.subCaste}</p></div>
+
+    <div class="full"><span>Permanent Address</span><p>${data.permanentAddress}</p></div>
+
+    <div><span>Phone</span><p>${data.phone}</p></div>
+    <div><span>Email</span><p>${data.email}</p></div>
+
+    <div><span>Aadhaar No</span><p>${data.aadharNo}</p></div>
+    <div><span>EMIS No</span><p>${data.emisNo}</p></div>
+
+    <div><span>UMIS No</span><p>${data.umis}</p></div>
+    <div><span>Disability</span><p>${data.disability}</p></div>
+
+    <div><span>10th Reg No</span><p>${data.tenthRegNo}</p></div>
+    <div><span>12th Reg No</span><p>${data.twelfthRegNo}</p></div>
+
+    <div><span>+2 Stream</span><p>${data.plus2Stream}</p></div>
+    <div><span>+2 Total Marks</span><p>${data.plus2TotalMarks}</p></div>
+
+    <div><span>Last Studied Institution</span><p>${data.lastStudiedInstitution}</p></div>
+    <div><span>Government School (6–12)</span><p>${data.governmentSchool6to12}</p></div>
+
+    <div><span>Scholarship / Fees Concession</span><p>${data.feesConcessionOrScholarship}</p></div>
+    <div><span>First Generation Learner</span><p>${data.firstGenerationLearner}</p></div>
+
+    <div><span>NSS / NCC / PED</span><p>${data.nssNccPed}</p></div>
+    <div><span>Part IV Activities</span><p>${data.partIVActivities || "Not Provided"}</p></div>
+
+    <div><span>Hostel Student</span><p>${data.hostelStudent}</p></div>
+    <div><span>Bus / Train Concession</span><p>${data.busPassOrTrainConcession}</p></div>
+
+    <div><span>Identification Mark</span><p>${data.tcIdentificationMark}</p></div>
+    <div><span>Special Talents</span><p>${data.specialTalents}</p></div>
+
+    <div><span>Date of Admission</span><p>${data.dateOfAdmission}</p></div>
+    <div><span>Date of TC</span><p>${data.dateOfTC}</p></div>
+
+    <div><span>Family Background</span><p>${data.familyBackground || "Not Provided"}</p></div>
+
+    <!-- Bank Details (Safe Handling) -->
+    <div><span>Bank Account No</span>
+        <p>${data.bankDetails?.accountNo || "Not Provided"}</p>
+    </div>
+
+    <div><span>IFSC Code</span>
+        <p>${data.bankDetails?.ifscCode || "Not Provided"}</p>
+    </div>
+
+</div>
+
+<hr>
+
+<label><b>Select Semester:</b></label>
+<select id="semesterSelect">
+    <option value="">-- Choose Semester --</option>
+    <option value="1">Semester 1</option>
+    <option value="2">Semester 2</option>
+    <option value="3">Semester 3</option>
+    <option value="4">Semester 4</option>
+    <option value="5">Semester 5</option>
+    <option value="6">Semester 6</option>
+</select>
+  <br>
+  <button class="primary-btn" onclick="loadMarks()">Submit</button>
+
+  <div id="marksBox" style="margin-top:15px;"></div>
+`;
+
+
+        });
+    }
+
+    function loadMarks() {
+      const sem = document.getElementById("semesterSelect").value;
+      const marksBox = document.getElementById("marksBox");
+
+      if (!sem) {
+        alert("Please select a semester");
+        return;
+      }
+
+      fetch(`http://127.0.0.1:5000/marks?rollno=${currentStudent.rollno}&sem=${sem}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            marksBox.innerHTML = `<p style="color:red">${data.error}</p>`;
+            return;
+          }
+
+          let table = `<table style="width:100%;border-collapse:collapse;">
+        <tr style="background:#f0f0ff">
+          <th style="padding:6px;border:1px solid #ccc;">Subject</th>
+          <th style="padding:6px;border:1px solid #ccc;">Marks</th>
+        </tr>`;
+
+          for (let subject in data) {
+            table += `
+          <tr>
+            <td style="padding:6px;border:1px solid #ccc;">${subject}</td>
+            <td style="padding:6px;border:1px solid #ccc;">${data[subject]}</td>
+          </tr>`;
+          }
+
+          table += `</table>`;
+          marksBox.innerHTML = table;
+        });
+    }
+
+
+  </script>
+</body>
+
+</html>
