@@ -19,9 +19,7 @@ students = db["StudentDetails"]
 def home():
     return render_template('login.html')
 
-@app.route("/dashboard")
-def dashboard():
-    return render_template("dashboard.html")
+
 
 @app.route("/search", methods=["GET"])
 def search_student():
@@ -68,8 +66,12 @@ def get_marks():
 
     return jsonify(semesters[sem_key])
 
-
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+
+
 
