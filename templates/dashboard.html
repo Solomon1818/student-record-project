@@ -30,7 +30,7 @@
     let currentStudent = null;
 
     function logout() {
-      window.location.href = "login.html";
+      window.location.href = "/";
     }
 
     function searchStudent() {
@@ -41,7 +41,7 @@
         return;
       }
 
-      fetch(`http://127.0.0.1:5000/search?q=${value}`)
+      fetch(`/search?q=${value}`)
         .then(res => res.json())
         .then(data => {
           const box = document.getElementById("resultBox");
@@ -161,7 +161,7 @@
         return;
       }
 
-      fetch(`http://127.0.0.1:5000/marks?rollno=${currentStudent.rollno}&sem=${sem}`)
+      fetch(`/marks?rollno=${currentStudent.rollno}&sem=${sem}`)
         .then(res => res.json())
         .then(data => {
           if (data.error) {
