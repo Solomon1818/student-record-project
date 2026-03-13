@@ -13,7 +13,7 @@ client = MongoClient("mongodb+srv://solomonking:Solomon%4018@cluster0.kxn98mx.mo
 db = client["StudentDb"]
 
 #Collection name (from Compass)
-students = db["ThirdYear"]
+students = db["StudentDetails"]
 
 @app.route('/')
 def home():
