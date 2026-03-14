@@ -197,6 +197,10 @@ td {
   padding: 10px;
   border: 1px solid #d1d5db;
 }
+input:focus, select:focus {
+    outline: 2px solid #4CAF50;
+    background: #f0fff4;
+}
 /* Mobile devices */
 @media (max-width: 600px) {
 
