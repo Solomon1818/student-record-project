@@ -4,6 +4,8 @@ from flask_cors import CORS
 from pymongo import MongoClient
 
 app = Flask(__name__)
+
+app.config["JSON_SORT_KEYS"] = False
 CORS(app)
 
 #MongoDB connection (client)
