@@ -174,14 +174,30 @@
                 <tr style="background:#f0f0ff">
                     <th style="padding:6px;border:1px solid #ccc;">Subject</th>
                     <th style="padding:6px;border:1px solid #ccc;">Marks</th>
+                    <th style="padding:6px;border:1px solid #ccc;">Result</th>
                 </tr>`;
 
-            // data is an array of objects [{subject: "...", mark: ...}, ...]
             data.forEach(item => {
+                let subject = item.subject.toUpperCase();
+                let mark = item.mark;
+                let result = "-";
+                let color = "gray"; // default color
+
+                if (!isNaN(mark)) {
+                    if (mark >= 50) {
+                        result = "PASS";
+                        color = "green";
+                    } else {
+                        result = "FAIL";
+                        color = "red";
+                    }
+                }
+
                 table += `
                     <tr>
-                        <td style="padding:6px;border:1px solid #ccc;">${item.subject}</td>
-                        <td style="padding:6px;border:1px solid #ccc;">${item.mark}</td>
+                        <td style="padding:6px;border:1px solid #ccc;">${subject}</td>
+                        <td style="padding:6px;border:1px solid #ccc;">${mark}</td>
+                        <td style="padding:6px;border:1px solid #ccc;color:${color};font-weight:bold;">${result}</td>
                     </tr>`;
             });
 
