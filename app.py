@@ -1,27 +1,29 @@
 import os
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify,  render_template
 from flask_cors import CORS
 from pymongo import MongoClient
 
 app = Flask(__name__)
-app.config["JSON_SORT_KEYS"] = False
+
 
 CORS(app)
 
-client = MongoClient(os.environ.get("MONGO_URI"))
+#MongoDB connection (client)
+client = MongoClient("mongodb+srv://solomonking:Solomon%4018@cluster0.kxn98mx.mongodb.net/?appName=Cluster0")
 
+#Database name (from Compass)
 db = client["StudentDb"]
+
+#Collection name (from Compass)
 students = db["StudentDetails"]
 
 @app.route('/')
 def home():
     return render_template('login.html')
 
-@app.route("/dashboard")
-def dashboard():
-    return render_template("dashboard.html")
 
-@app.route("/search")
+
+@app.route("/search", methods=["GET"])
 def search_student():
     query = request.args.get("q")
 
@@ -40,21 +42,20 @@ def search_student():
 
     if student:
         return jsonify(student)
+    else:
+        return jsonify({"error": "Student not found"})
 
-    return jsonify({"error": "Student not found"})
-
-@app.route("/marks")
+@app.route("/marks", methods=["GET"])
 def get_marks():
     rollno = request.args.get("rollno")
     sem = request.args.get("sem")
 
-    if not rollno or not sem:
-        return jsonify({"error": "Missing roll number or semester"})
+    print("DEBUG rollno:", rollno)
+    print("DEBUG sem:", sem)
 
-    student = students.find_one(
-        {"rollno": {"$regex": f"^{rollno}$", "$options": "i"}},
-        {"_id": 0, "semesters": 1}
-    )
+    student = students.find_one({
+        "rollno": {"$regex": f"^{rollno}$", "$options": "i"}
+    })
 
     if not student:
         return jsonify({"error": "Student not found"})
@@ -67,5 +68,12 @@ def get_marks():
 
     return jsonify(semesters[sem_key])
 
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+
+
+
