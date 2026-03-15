@@ -154,40 +154,41 @@
     }
 
     function loadMarks() {
-      const sem = document.getElementById("semesterSelect").value;
-      const marksBox = document.getElementById("marksBox");
+    const sem = document.getElementById("semesterSelect").value;
+    const marksBox = document.getElementById("marksBox");
 
-      if (!sem) {
+    if (!sem) {
         alert("Please select a semester");
         return;
-      }
+    }
 
-      fetch(`/marks?rollno=${currentStudent.rollno}&sem=${sem}`)
+    fetch(`/marks?rollno=${currentStudent.rollno}&sem=${sem}`)
         .then(res => res.json())
         .then(data => {
-          if (data.error) {
-            marksBox.innerHTML = `<p style="color:red">${data.error}</p>`;
-            return;
-          }
+            if (data.error) {
+                marksBox.innerHTML = `<p style="color:red">${data.error}</p>`;
+                return;
+            }
 
-          let table = `<table style="width:100%;border-collapse:collapse;">
-        <tr style="background:#f0f0ff">
-          <th style="padding:6px;border:1px solid #ccc;">Subject</th>
-          <th style="padding:6px;border:1px solid #ccc;">Marks</th>
-        </tr>`;
+            let table = `<table style="width:100%;border-collapse:collapse;">
+                <tr style="background:#f0f0ff">
+                    <th style="padding:6px;border:1px solid #ccc;">Subject</th>
+                    <th style="padding:6px;border:1px solid #ccc;">Marks</th>
+                </tr>`;
 
-          for (let subject in data) {
-            table += `
-          <tr>
-            <td style="padding:6px;border:1px solid #ccc;">${subject}</td>
-            <td style="padding:6px;border:1px solid #ccc;">${data[subject]}</td>
-          </tr>`;
-          }
+            // data is an array of objects [{subject: "...", mark: ...}, ...]
+            data.forEach(item => {
+                table += `
+                    <tr>
+                        <td style="padding:6px;border:1px solid #ccc;">${item.subject}</td>
+                        <td style="padding:6px;border:1px solid #ccc;">${item.mark}</td>
+                    </tr>`;
+            });
 
-          table += `</table>`;
-          marksBox.innerHTML = table;
+            table += `</table>`;
+            marksBox.innerHTML = table;
         });
-    }
+}
 
 
   </script>
